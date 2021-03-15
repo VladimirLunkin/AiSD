@@ -25,6 +25,9 @@ public:
     Queue(Queue&&) = delete;
     Queue& operator=(Queue&&) = delete;
 
+    bool is_empty() const {
+        return head == tail && head == nullptr;
+    }
     void push(const T &elem) {
         Node *node = new Node(elem);
         if (is_empty()) {
@@ -33,18 +36,24 @@ public:
         }
         tail->next = node;
         tail = node;
+        tail->next = head;  // закольцевать список
     }
     void pop() {
-        Node *node = head;
-        if (head == current) {
-            current = head->next;
+        if (is_empty()) {
+            return;
         }
-        head = head->next;
 
-        if (head == nullptr || head == tail) {
+        Node *node = head;
+        if (head != head->next) {
+            head = head->next;
+            tail->next = head;
+            if (current == head) {
+                current = head;
+            }
+        } else {
             head = nullptr;
-            tail = nullptr;
-            current = nullptr;
+            current = head;
+            tail = head;
         }
 
         delete node;
@@ -56,33 +65,22 @@ public:
         }
 
         Node *node = current->next;
-        if (node == tail || node == nullptr) {
-            current->next = nullptr;
+        if (node == tail) {
+            current->next = head;
             tail = current;
         } else {
             current->next = current->next->next;
         }
+
         delete node;
     }
     T& top() {
         return head->value;
     }
-    T& next_elem() {
-        if (current->next == nullptr) {
-            return current->value;
-        }
-        return current->next->value;
-    }
     void shift() {
         if (current->next != nullptr) {
             current = current->next;
         }
-    }
-    bool is_empty() const {
-        return head == tail && head == nullptr;
-    }
-    void ring() {
-        tail->next = head;
     }
 private:
     Node *head;
@@ -95,19 +93,16 @@ int counting(const int n, int k) {
     for (int i = 1; i <= n; ++i) {
         a.push(i);
     }
-    a.ring();
     for (int j = 0; j < k - 2; ++j) {
         a.shift();
     }
 
     for (int i = 0; i < n - 1; ++i) {
         a.pop_next();
-        a.ring();
         for (int j = 0; j < k - 1; ++j) {
             a.shift();
         }
     }
-    cout << "";
     return a.top();
 }
 

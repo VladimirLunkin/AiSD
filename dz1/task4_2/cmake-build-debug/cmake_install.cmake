@@ -1,4 +1,4 @@
-# Install script for directory: /home/vladimir/Документы/АиСД/task4_2
+# Install script for directory: /home/vladimir/Documents/AiSD/dz1/task4_2
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/vladimir/Документы/АиСД/task4_2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/vladimir/Documents/AiSD/dz1/task4_2/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")
