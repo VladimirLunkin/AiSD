@@ -1,3 +1,0 @@
-/home/vladimir/Документы/АиСД/dz2/task2_4/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/vladimir/Документы/АиСД/dz2/task2_4/cmake-build-debug/CMakeFiles/edit_cache.dir
-/home/vladimir/Документы/АиСД/dz2/task2_4/cmake-build-debug/CMakeFiles/task2_4.dir
