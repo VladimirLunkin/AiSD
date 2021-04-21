@@ -1,8 +1,6 @@
 #include <iostream>
 #include <queue>
 #include <stack>
-#include <assert.h>
-
 
 using namespace std;
 
@@ -60,19 +58,19 @@ class Tree {
         Node* left;
         Node* right;
 
-        Node(const T& _key): key(_key), left(nullptr), right(nullptr) {}
+        explicit Node(const T& _key): key(_key), left(nullptr), right(nullptr) {}
     };
 
 public:
-    explicit Tree(Comparator _comp): root(nullptr), comp(_comp) {}
+    explicit Tree(Comparator _comp): root_(nullptr), comp_(_comp) {}
     Tree(const Tree&) = delete;
     Tree& operator=(const Tree&) = delete;
     ~Tree() {
-        if (root == nullptr) {
+        if (root_ == nullptr) {
             return;
         }
         stack<Node*> nodes;
-        nodes.push(root);
+        nodes.push(root_);
         while (!nodes.empty()) {
             Node* current = nodes.top();
 
@@ -94,9 +92,9 @@ public:
     }
 
     void insert(const T& key) {
-        Node* current = root;
+        Node* current = root_;
         while (current != nullptr) {
-            if (comp(key, current->key) == 1) {
+            if (comp_(key, current->key) == 1) {
                 if (current->left == nullptr) {
                     current->left = new Node(key);
                     return;
@@ -111,14 +109,14 @@ public:
             }
         }
 
-        root = new Node(key);
+        root_ = new Node(key);
     }
     bool find(const T& key) {
-        Node* current = root;
+        Node* current = root_;
         while (current != nullptr) {
-            if (comp(key, current->key) == 1) {
+            if (comp_(key, current->key) == 1) {
                 current = current->left;
-            } else if (comp(key, current->key) == 0) {
+            } else if (comp_(key, current->key) == 0) {
                 return true;
             } else {
                 current = current->right;
@@ -128,23 +126,23 @@ public:
         return false;
     }
     bool del(const T& key) {
-        if (root == nullptr) {
+        if (root_ == nullptr) {
             return false;
         }
 
-        if (comp(key, root->key) == 0) {
-            del_node(root);
+        if (comp_(key, root_->key) == 0) {
+            delNode(root_);
             return true;
         }
 
-        Node* parent = root;
-        Node* current = root;
+        Node* parent = root_;
+        Node* current = root_;
         while (current != nullptr) {
-            if (comp(key, current->key) == 1) {
+            if (comp_(key, current->key) == 1) {
                 parent = current;
                 current = current->left;
-            } else if (comp(key, current->key) == 0) {
-                del_node((parent->left == current) ? parent->left : parent->right);
+            } else if (comp_(key, current->key) == 0) {
+                delNode((parent->left == current) ? parent->left : parent->right);
                 return true;
             } else {
                 parent = current;
@@ -155,12 +153,12 @@ public:
         return false;
     }
 
-    void TraverseBFS(void (*visit)(T&)) {
-        if (root == nullptr) {
+    void traverseBFS(void (*visit)(T&)) {
+        if (root_ == nullptr) {
             return;
         }
         queue<Node*> row;
-        row.push(root);
+        row.push(root_);
         while (!row.empty()) {
             Node* current = row.front();
             row.pop();
@@ -173,16 +171,35 @@ public:
             }
         }
     }
+    void inOrder(void (*visit)(T&)) {
+        if (root_ == nullptr) {
+            return;
+        }
+        stack<Node*> buf;
+        Node* current = root_;
+        do {
+            while (current != nullptr) {
+                buf.push(current);
+                current = current->left;
+            }
 
-    bool is_sames() {
-        if (root == nullptr) {
+            current = buf.top();
+            visit(current->key);
+            buf.pop();
+
+            current = current->right;
+        } while (!buf.empty() || current);
+    }
+
+    bool isSames() {
+        if (root_ == nullptr) {
             return true;
         }
 
-        T value = root->key;
+        T value = root_->key;
 
         queue<Node*> row;
-        row.push(root);
+        row.push(root_);
         while (!row.empty()) {
             Node* current = row.front();
             row.pop();
@@ -203,7 +220,7 @@ public:
     }
 
 private:
-    void del_node(Node*& current) {
+    void delNode(Node*& current) {
         if (current->left == nullptr) {
             Node* right = current->right;
             delete current;
@@ -228,8 +245,8 @@ private:
         }
     }
 
-    Node* root;
-    Comparator comp;
+    Node* root_;
+    Comparator comp_;
 
 };
 
@@ -250,9 +267,9 @@ void test1() {
     tree.insert(4);
     tree.insert(4);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
-    cout << tree.is_sames() << endl;
+    cout << tree.isSames() << endl;
 //    tree.TraverseBFS(pow);
 //    tree.TraverseBFS(print);
 //    cout << endl;
@@ -261,7 +278,6 @@ void test1() {
 //    tree.TraverseBFS(print);
 //    cout << endl;
 }
-
 void test2() {
     Comparator<int> comp;
     Tree<int, Comparator<int>> tree(comp);
@@ -276,14 +292,13 @@ void test2() {
     tree.insert(25);
     tree.insert(14);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 
     tree.del(20);
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 }
-
 void test3() {
     Comparator<int> comp;
     Tree<int, Comparator<int>> tree(comp);
@@ -292,10 +307,9 @@ void test3() {
     tree.insert(2);
     tree.insert(3);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 }
-
 void test4() {
     Comparator<int> comp;
     Tree<int, Comparator<int>> tree(comp);
@@ -304,10 +318,9 @@ void test4() {
     tree.insert(1);
     tree.insert(2);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 }
-
 void test5() {
     Comparator<int> comp;
     Tree<int, Comparator<int>> tree(comp);
@@ -317,10 +330,9 @@ void test5() {
     tree.insert(4);
     tree.insert(2);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 }
-
 void test6() {
     Comparator<int> comp;
     Tree<int, Comparator<int>> tree(comp);
@@ -331,7 +343,7 @@ void test6() {
     tree.insert(2);
     tree.insert(4);
 
-    tree.TraverseBFS(print);
+    tree.inOrder(print);
     cout << endl;
 }
 
@@ -343,19 +355,19 @@ int main() {
         cout << "test" << i + 1 << " - OK" << endl;
     }
 
-//    int n;
-//    cin >> n;
-//
-//    Comparator<int> comp;
-//    Tree<int, Comparator<int>> tree(comp);
-//
-//    for (int i = 0; i < n; ++i) {
-//        int tmp;
-//        cin >> tmp;
-//        tree.insert(tmp);
-//    }
-//
-//    tree.TraverseBFS();
+/*    int n;
+    cin >> n;
+
+    Comparator<int> comp;
+    Tree<int, Comparator<int>> tree(comp);
+
+    for (int i = 0; i < n; ++i) {
+        int tmp;
+        cin >> tmp;
+        tree.insert(tmp);
+    }
+
+    tree.TraverseBFS();*/
 
     return 0;
 }
