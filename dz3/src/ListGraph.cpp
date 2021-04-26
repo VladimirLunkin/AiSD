@@ -1,4 +1,4 @@
-#include "../include/ListGraph.h"
+#include "ListGraph.h"
 
 
 ListGraph::ListGraph(size_t verticesCount)

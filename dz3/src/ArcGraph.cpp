@@ -5,7 +5,7 @@ ArcGraph::ArcGraph(size_t verticesCount)
 
 ArcGraph::ArcGraph(const IGraph &graph)
     : ArcGraph(graph.verticesCount()) {
-    for (int i = 0; i < graph_.size(); ++i) {
+    for (int i = 0; i < verticesCount_; ++i) {
         std::vector<int> row = graph.getNextVertices(i);
         for (int j : row) {
             graph_.emplace_back(i, j);

@@ -1,8 +1,9 @@
 #ifndef DZ3_SETGRAPH_H
 #define DZ3_SETGRAPH_H
 
-#include "HashTable.h"
 #include "IGraph.h"
+
+#include <set>
 
 
 class SetGraph : public IGraph {
@@ -20,7 +21,7 @@ public:
     std::vector<int> getPrevVertices(int vertex) const override;
 
 private:
-    std::vector<HashTable<int>> graph_;
+    std::vector<std::set<int>> graph_;
 };
 
 

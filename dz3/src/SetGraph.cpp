@@ -1,8 +1,7 @@
 #include "SetGraph.h"
 
 SetGraph::SetGraph(size_t verticesCount)
-        : graph_(verticesCount, HashTable<int>()) {
-}
+        : graph_(verticesCount, std::set<int>()) {}
 
 SetGraph::SetGraph(const IGraph &graph)
         : SetGraph(graph.verticesCount()) {
@@ -25,7 +24,7 @@ size_t SetGraph::verticesCount() const {
 std::vector<int> SetGraph::getNextVertices(int vertex) const {
     std::vector<int> result;
     for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[vertex].find(i)) {
+        if (graph_[vertex].find(i) != graph_[vertex].end()) {
             result.push_back(i);
         }
     }
@@ -35,7 +34,7 @@ std::vector<int> SetGraph::getNextVertices(int vertex) const {
 std::vector<int> SetGraph::getPrevVertices(int vertex) const {
     std::vector<int> result;
     for (int i = 0; i < graph_.size(); ++i) {
-        if (graph_[i].find(vertex)) {
+        if (graph_[i].find(vertex) != graph_[i].end()) {
             result.push_back(i);
         }
     }
