@@ -3,6 +3,7 @@
 #include "ArcGraph.h"
 #include "ListGraph.h"
 #include "MatrixGraph.h"
+#include "Traversal.h"
 #include "SetGraph.h"
 
 #include <algorithm>
@@ -142,6 +143,32 @@ bool testList8() {
     return find(n_0, 1) && find(n_0, 2) && find(n_0, 3) && p_0.empty() &&
            find(n_4, 5) && find(p_4, 1) && find(p_4, 3) &&
            n_5.empty() && find(p_5, 2) && find(p_5, 3) && find(p_5, 4);
+}
+bool testList9() {
+    ListGraph graph(6);
+    graph.addEdge(0, 1);
+    graph.addEdge(0, 2);
+    graph.addEdge(0, 3);
+    graph.addEdge(1, 4);
+    graph.addEdge(1, 2);
+    graph.addEdge(2, 5);
+    graph.addEdge(3, 4);
+    graph.addEdge(3, 5);
+    graph.addEdge(4, 5);
+
+    std::cout << std::endl;
+    dfs(graph, [](int a) {
+        std::cout << a << " ";
+    });
+    std::cout << std::endl;
+
+    std::cout << std::endl;
+    bfs(graph, [](int a) {
+        std::cout << a << " ";
+    });
+    std::cout << std::endl;
+
+    return true;
 }
 
 bool testMatrix1() {
@@ -531,7 +558,7 @@ static inline void print_tests(const string &name, vector<test_t> tests) {
 }
 
 void runTests() {
-    vector<test_t> list_tests = { testList1, testList2, testList3, testList4, testList5, testList6, testList7, testList8, };
+    vector<test_t> list_tests = { testList1, testList2, testList3, testList4, testList5, testList6, testList7, testList8, testList9, };
     vector<test_t> matrix_tests = { testMatrix1, testMatrix2, testMatrix3, testMatrix4, testMatrix5, testMatrix6, testMatrix7, testMatrix8, };
     vector<test_t> set_tests = { testSet1, testSet2, testSet3, testSet4, testSet5, testSet6, testSet7, testSet8, };
     vector<test_t> arc_tests = { testArc1, testArc2, testArc3, testArc4, testArc5, testArc6, testArc7, testArc8, };
