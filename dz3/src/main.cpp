@@ -540,14 +540,16 @@ int main() {
 //    print_tests("SetGraph", set_tests);
     print_tests("ArcGraph", arc_tests);
 
-    HashTable<int> ht;
+    DefaultHash1<int> h1;
+    DefaultHash2<int> h2;
+    HashTable<int, DefaultHash1<int>, DefaultHash2<int>> ht(h1, h2);
 
     std::cout << " sedw " << std::endl;
 
 //    ht.print();
 //
-    int a = 123;
-    ht.insert(a);
+//    int a = 123;
+//    ht.insert(a);
 //
 //    ht.print();
     return 0;

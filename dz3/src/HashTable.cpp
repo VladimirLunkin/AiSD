@@ -6,10 +6,10 @@ template<class Key, class Hash1, class Hash2>
 HashTable<Key, Hash1, Hash2>::HashTableNode::HashTableNode()
         : state(CellType::Empty) {}
 
-//template<class Key, class Hash1, class Hash2>
-//HashTable<Key, Hash1, Hash2>::HashTable(const Hash1 &hasher1, const Hash2 &hasher2)
-//        : table_(), itemsCount_(0), hasher1_(hasher1), hasher2_(hasher2) {}
-/*
+template<class Key, class Hash1, class Hash2>
+HashTable<Key, Hash1, Hash2>::HashTable(const Hash1 &hasher1, const Hash2 &hasher2)
+        : table_(), itemsCount_(0), hasher1_(hasher1), hasher2_(hasher2) {}
+
 template<class Key, class Hash1, class Hash2>
 bool HashTable<Key, Hash1, Hash2>::insert(const Key &key) {
     if (itemsCount_ * 4 >= table_.size() * 3) {
@@ -45,7 +45,7 @@ bool HashTable<Key, Hash1, Hash2>::insert(const Key &key) {
     table_[first_del].state = CellType::Occupied;
     itemsCount_++;
     return true;
-}*/
+}
 
 template<class Key, class Hash1, class Hash2>
 bool HashTable<Key, Hash1, Hash2>::find(const Key &key) const {
