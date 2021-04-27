@@ -99,5 +99,5 @@ int numberOfShortestPaths(const IGraph &graph, int from, int to) {
         
     }
 
-    return -1;
+    return 0;
 }
