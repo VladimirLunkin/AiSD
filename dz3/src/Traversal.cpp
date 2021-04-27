@@ -51,18 +51,53 @@ void bfs(const IGraph &graph, void (*callback)(int v)) {
     }
 }
 
-void numberOfShortestPaths(const IGraph &graph, size_t from, size_t to) {
-    std::vector<size_t> counters(graph.verticesCount(),0);
+int numberOfShortestPaths(const IGraph &graph, int from, int to) {
+    /// first - количество кратчайших путей от from до текущей вершины
+    /// second - длина кратчайшего пути от from до текущей вершины
+    std::vector<std::pair<int, int>> counters(graph.verticesCount(), {0, 0});
+    counters[from] = {1, 0};
+
     std::vector<bool> visited(graph.verticesCount(), false);
-    std::queue<size_t> queue;
+    visited[from] = true;
 
-    for (size_t i = 0; i < graph.verticesCount(); ++i) {
-        size_t vertex = (i + from) % graph.verticesCount();
-        if (!visited[vertex]) {
-            queue.push(vertex);
-            visited[vertex] = true;
+    std::queue<int> queue;
+    queue.push(from);
 
-            bfs_aux(graph, queue, visited, callback);
+    int layerNumber = 1;
+    int viewedInLayer = 0;
+    int quantityInNextLayer = 0;
+    int quantityInCurrentLayer = 1;
+
+    while (!queue.empty()) {
+        int vertex = queue.front();
+        queue.pop();
+        viewedInLayer++;
+
+        for (auto child : graph.getNextVertices(vertex)) {
+            if (!visited[child]) {
+                counters[child].second = layerNumber;
+                visited[child] = true;
+                queue.push(child);
+                quantityInNextLayer++;
+            }
+
+            if (layerNumber == counters[child].second) {
+                counters[child].first += counters[vertex].first;
+            }
         }
+
+        if (viewedInLayer == quantityInCurrentLayer) {
+            quantityInCurrentLayer = quantityInNextLayer;
+            quantityInNextLayer = 0;
+            viewedInLayer = 0;
+            layerNumber++;
+
+            if (counters[to].first != 0) {
+                return counters[to].first;
+            }
+        }
+        
     }
+
+    return -1;
 }

@@ -17,6 +17,74 @@ static inline bool find(const vector<int>& v, int item) {
     return find(v.begin(), v.end(), item) != v.end();
 }
 
+static inline void createGraph1(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 0);
+}
+static inline void createGraph2(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(0, 2);
+    graph.addEdge(1, 2);
+}
+static inline void createGraph3(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 2);
+    graph.addEdge(2, 0);
+}
+static inline void createGraph4(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(0, 0);
+}
+static inline void createGraph5(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(0, 2);
+    graph.addEdge(0, 3);
+    graph.addEdge(1, 4);
+    graph.addEdge(1, 2);
+    graph.addEdge(2, 5);
+    graph.addEdge(3, 4);
+    graph.addEdge(3, 5);
+    graph.addEdge(4, 5);
+}
+static inline void createGraph6(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 0);
+    graph.addEdge(0, 2);
+    graph.addEdge(2, 0);
+    graph.addEdge(0, 3);
+    graph.addEdge(3, 0);
+    graph.addEdge(1, 4);
+    graph.addEdge(4, 1);
+    graph.addEdge(1, 2);
+    graph.addEdge(2, 1);
+    graph.addEdge(2, 5);
+    graph.addEdge(5, 2);
+    graph.addEdge(3, 4);
+    graph.addEdge(4, 3);
+    graph.addEdge(3, 5);
+    graph.addEdge(5, 3);
+    graph.addEdge(4, 5);
+    graph.addEdge(5, 4);
+}
+static inline void createGraph7(IGraph &graph) {
+    graph.addEdge(0, 1);
+    graph.addEdge(1, 0);
+    graph.addEdge(0, 2);
+    graph.addEdge(2, 0);
+    graph.addEdge(1, 3);
+    graph.addEdge(3, 1);
+    graph.addEdge(2, 3);
+    graph.addEdge(3, 2);
+    graph.addEdge(3, 4);
+    graph.addEdge(4, 3);
+    graph.addEdge(3, 5);
+    graph.addEdge(5, 3);
+    graph.addEdge(4, 6);
+    graph.addEdge(6, 4);
+    graph.addEdge(6, 5);
+    graph.addEdge(5, 6);
+}
+
 typedef bool (*test_t)();
 
 bool testList1() {
@@ -36,8 +104,7 @@ bool testList2() {
 }
 bool testList3() {
     ListGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 0);
+    createGraph1(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -51,9 +118,7 @@ bool testList3() {
 }
 bool testList4() {
     ListGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(1, 2);
+    createGraph2(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -68,9 +133,7 @@ bool testList4() {
 }
 bool testList5() {
     ListGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 0);
+    createGraph3(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -85,8 +148,7 @@ bool testList5() {
 }
 bool testList6() {
     ListGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 0);
+    createGraph4(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -98,15 +160,7 @@ bool testList6() {
 }
 bool testList7() {
     ListGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -121,15 +175,7 @@ bool testList7() {
 }
 bool testList8() {
     ListGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     MatrixGraph graph_copy(graph);
 
@@ -143,32 +189,6 @@ bool testList8() {
     return find(n_0, 1) && find(n_0, 2) && find(n_0, 3) && p_0.empty() &&
            find(n_4, 5) && find(p_4, 1) && find(p_4, 3) &&
            n_5.empty() && find(p_5, 2) && find(p_5, 3) && find(p_5, 4);
-}
-bool testList9() {
-    ListGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
-
-    std::cout << std::endl;
-    dfs(graph, [](int a) {
-        std::cout << a << " ";
-    });
-    std::cout << std::endl;
-
-    std::cout << std::endl;
-    bfs(graph, [](int a) {
-        std::cout << a << " ";
-    });
-    std::cout << std::endl;
-
-    return true;
 }
 
 bool testMatrix1() {
@@ -188,8 +208,7 @@ bool testMatrix2() {
 }
 bool testMatrix3() {
     MatrixGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 0);
+    createGraph1(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -203,9 +222,7 @@ bool testMatrix3() {
 }
 bool testMatrix4() {
     MatrixGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(1, 2);
+    createGraph2(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -220,9 +237,7 @@ bool testMatrix4() {
 }
 bool testMatrix5() {
     MatrixGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 0);
+    createGraph3(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -237,8 +252,7 @@ bool testMatrix5() {
 }
 bool testMatrix6() {
     MatrixGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 0);
+    createGraph4(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -250,15 +264,7 @@ bool testMatrix6() {
 }
 bool testMatrix7() {
     MatrixGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -273,15 +279,7 @@ bool testMatrix7() {
 }
 bool testMatrix8() {
     MatrixGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     SetGraph graph_copy(graph);
 
@@ -314,8 +312,7 @@ bool testSet2() {
 }
 bool testSet3() {
     SetGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 0);
+    createGraph1(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -329,9 +326,7 @@ bool testSet3() {
 }
 bool testSet4() {
     SetGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(1, 2);
+    createGraph2(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -346,9 +341,7 @@ bool testSet4() {
 }
 bool testSet5() {
     SetGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 0);
+    createGraph3(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -363,8 +356,7 @@ bool testSet5() {
 }
 bool testSet6() {
     SetGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 0);
+    createGraph4(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -376,15 +368,7 @@ bool testSet6() {
 }
 bool testSet7() {
     SetGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -399,15 +383,7 @@ bool testSet7() {
 }
 bool testSet8() {
     SetGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     ArcGraph graph_copy(graph);
 
@@ -440,8 +416,7 @@ bool testArc2() {
 }
 bool testArc3() {
     ArcGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 0);
+    createGraph1(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -455,9 +430,7 @@ bool testArc3() {
 }
 bool testArc4() {
     ArcGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(1, 2);
+    createGraph2(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -472,10 +445,7 @@ bool testArc4() {
 }
 bool testArc5() {
     ArcGraph graph(3);
-    graph.addEdge(0, 1);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 0);
-
+    createGraph3(graph);
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
     vector<int> n_1 = graph.getNextVertices(1);
@@ -489,8 +459,7 @@ bool testArc5() {
 }
 bool testArc6() {
     ArcGraph graph(2);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 0);
+    createGraph4(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -502,15 +471,7 @@ bool testArc6() {
 }
 bool testArc7() {
     ArcGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     vector<int> n_0 = graph.getNextVertices(0);
     vector<int> p_0 = graph.getPrevVertices(0);
@@ -525,15 +486,7 @@ bool testArc7() {
 }
 bool testArc8() {
     ArcGraph graph(6);
-    graph.addEdge(0, 1);
-    graph.addEdge(0, 2);
-    graph.addEdge(0, 3);
-    graph.addEdge(1, 4);
-    graph.addEdge(1, 2);
-    graph.addEdge(2, 5);
-    graph.addEdge(3, 4);
-    graph.addEdge(3, 5);
-    graph.addEdge(4, 5);
+    createGraph5(graph);
 
     ListGraph graph_copy(graph);
 
@@ -549,7 +502,75 @@ bool testArc8() {
            n_5.empty() && find(p_5, 2) && find(p_5, 3) && find(p_5, 4);
 }
 
-static inline void print_tests(const string &name, vector<test_t> tests) {
+bool testDFS1() {
+    SetGraph graph(6);
+    createGraph6(graph);
+
+    std::cout << std::endl;
+    dfs(graph, [](int a) {
+        std::cout << a << " ";
+    });
+    std::cout << std::endl;
+    return true;
+}
+
+bool testBFS1() {
+    SetGraph graph(6);
+    createGraph6(graph);
+
+    std::cout << std::endl;
+    bfs(graph, [](int a) {
+        std::cout << a << " ";
+    });
+    std::cout << std::endl;
+    return true;
+}
+
+bool testShortestPaths1() {
+    SetGraph graph(2);
+    createGraph1(graph);
+
+    return numberOfShortestPaths(graph, 0, 1) == 1 &&
+           numberOfShortestPaths(graph, 1, 0) == 1;
+}
+bool testShortestPaths2() {
+    SetGraph graph(3);
+    createGraph2(graph);
+
+    return numberOfShortestPaths(graph, 0, 1) == 1 &&
+           numberOfShortestPaths(graph, 0, 2) == 1 &&
+           numberOfShortestPaths(graph, 1, 2) == 1;
+}
+bool testShortestPaths3() {
+    SetGraph graph(3);
+    createGraph4(graph);
+
+    return numberOfShortestPaths(graph, 0, 1) == 1 &&
+           numberOfShortestPaths(graph, 1, 0) == -1;
+}
+bool testShortestPaths4() {
+    SetGraph graph(6);
+    createGraph6(graph);
+
+    return numberOfShortestPaths(graph, 0, 1) == 1 &&
+           numberOfShortestPaths(graph, 0, 2) == 1 &&
+           numberOfShortestPaths(graph, 0, 3) == 1 &&
+           numberOfShortestPaths(graph, 0, 4) == 2 &&
+           numberOfShortestPaths(graph, 0, 5) == 2;
+}
+bool testShortestPaths5() {
+    SetGraph graph(7);
+    createGraph7(graph);
+
+    return numberOfShortestPaths(graph, 0, 1) == 1 &&
+           numberOfShortestPaths(graph, 0, 2) == 1 &&
+           numberOfShortestPaths(graph, 0, 3) == 2 &&
+           numberOfShortestPaths(graph, 0, 4) == 2 &&
+           numberOfShortestPaths(graph, 0, 5) == 2 &&
+           numberOfShortestPaths(graph, 0, 6) == 4;
+}
+
+static inline void runTest(const string &name, vector<test_t> tests) {
     cout << "  --- " << name << " --- " << endl;
     for (int i = 0; i < tests.size(); ++i) {
         cout << "Test " << i + 1 << ((tests[i]()) ? ": OK" : ": Failed") << endl;
@@ -558,13 +579,22 @@ static inline void print_tests(const string &name, vector<test_t> tests) {
 }
 
 void runTests() {
-    vector<test_t> list_tests = { testList1, testList2, testList3, testList4, testList5, testList6, testList7, testList8, testList9, };
+    vector<test_t> list_tests = { testList1, testList2, testList3, testList4, testList5, testList6, testList7, testList8, };
     vector<test_t> matrix_tests = { testMatrix1, testMatrix2, testMatrix3, testMatrix4, testMatrix5, testMatrix6, testMatrix7, testMatrix8, };
     vector<test_t> set_tests = { testSet1, testSet2, testSet3, testSet4, testSet5, testSet6, testSet7, testSet8, };
     vector<test_t> arc_tests = { testArc1, testArc2, testArc3, testArc4, testArc5, testArc6, testArc7, testArc8, };
 
-    print_tests("ListGraph", list_tests);
-    print_tests("MatrixGraph", matrix_tests);
-    print_tests("SetGraph", set_tests);
-    print_tests("ArcGraph", arc_tests);
+    runTest("ListGraph", list_tests);
+    runTest("MatrixGraph", matrix_tests);
+    runTest("SetGraph", set_tests);
+    runTest("ArcGraph", arc_tests);
+
+    vector<test_t> DFS_tests = { testDFS1, };
+    runTest("DFS", DFS_tests);
+
+    vector<test_t> BFS_tests = { testBFS1, };
+    runTest("BFS", BFS_tests);
+
+    vector<test_t> shortestPaths_tests = { testShortestPaths1, testShortestPaths2, testShortestPaths3, testShortestPaths4, testShortestPaths5, };
+    runTest("ShortestPaths", shortestPaths_tests);
 }
