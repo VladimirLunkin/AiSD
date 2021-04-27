@@ -546,7 +546,7 @@ bool testShortestPaths3() {
     createGraph4(graph);
 
     return numberOfShortestPaths(graph, 0, 1) == 1 &&
-           numberOfShortestPaths(graph, 1, 0) == -1;
+           numberOfShortestPaths(graph, 1, 0) == 0;
 }
 bool testShortestPaths4() {
     SetGraph graph(6);
