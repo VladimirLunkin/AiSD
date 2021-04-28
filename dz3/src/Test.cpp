@@ -5,6 +5,7 @@
 #include "MatrixGraph.h"
 #include "Traversal.h"
 #include "SetGraph.h"
+#include "WeightedGraph.h"
 
 #include <algorithm>
 #include <iostream>
@@ -83,6 +84,35 @@ static inline void createGraph7(IGraph &graph) {
     graph.addEdge(6, 4);
     graph.addEdge(6, 5);
     graph.addEdge(5, 6);
+}
+static inline void createGraph8(WeightedGraph &graph) {
+    graph.addEdge(0, 3, 1);
+    graph.addEdge(0, 4, 2);
+    graph.addEdge(1, 2, 7);
+    graph.addEdge(1, 3, 2);
+    graph.addEdge(1, 4, 3);
+    graph.addEdge(1, 5, 3);
+    graph.addEdge(2, 5, 3);
+    graph.addEdge(3, 4, 4);
+    graph.addEdge(3, 5, 6);
+}
+static inline void createGraph9(WeightedGraph &graph) {
+    graph.addEdge(0, 1, 9);
+    graph.addEdge(0, 2, 2);
+    graph.addEdge(0, 3, 6);
+    graph.addEdge(1, 3, 2);
+    graph.addEdge(1, 6, 4);
+    graph.addEdge(2, 3, 3);
+    graph.addEdge(2, 4, 1);
+    graph.addEdge(3, 4, 1);
+    graph.addEdge(3, 5, 9);
+    graph.addEdge(3, 6, 7);
+    graph.addEdge(4, 7, 6);
+    graph.addEdge(5, 6, 1);
+    graph.addEdge(5, 7, 5);
+    graph.addEdge(5, 8, 1);
+    graph.addEdge(6, 8, 5);
+    graph.addEdge(7, 8, 5);
 }
 
 typedef bool (*test_t)();
@@ -570,6 +600,23 @@ bool testShortestPaths5() {
            numberOfShortestPaths(graph, 0, 6) == 4;
 }
 
+bool testDijkstra1() {
+    WeightedGraph graph(6);
+    createGraph8(graph);
+
+    std::vector<int> expected = {0, 3, 9, 1, 2, 6};
+
+    return dijkstra(graph, 0) == expected;
+}
+bool testDijkstra2() {
+    WeightedGraph graph(9);
+    createGraph9(graph);
+
+    std::vector<int> expected = {0, 6, 2, 4, 3, 11, 10, 9, 12};
+
+    return dijkstra(graph, 0) == expected;
+}
+
 static inline void runTest(const string &name, vector<test_t> tests) {
     cout << "  --- " << name << " --- " << endl;
     for (int i = 0; i < tests.size(); ++i) {
@@ -597,4 +644,7 @@ void runTests() {
 
     vector<test_t> shortestPaths_tests = { testShortestPaths1, testShortestPaths2, testShortestPaths3, testShortestPaths4, testShortestPaths5, };
     runTest("ShortestPaths", shortestPaths_tests);
+
+    vector<test_t> dijkstra_tests = { testDijkstra1, testDijkstra2, };
+    runTest("Dijkstra", dijkstra_tests);
 }
