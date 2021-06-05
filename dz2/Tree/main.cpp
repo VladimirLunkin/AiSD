@@ -9,23 +9,29 @@ template <class T>
 void print(T& val) {
     cout << val << " ";
 }
-
-template <class T>
-class Comparator {
-public:
-    int operator()(const T& lhs, const T& rhs) {
-        if (lhs == rhs) {
-            return 0;
-        }
-        if (lhs < rhs) {
-            return 1;
-        }
-        return -1;
-    }
-};
+//
 //struct LibraryBook {
 //    unsigned int AuthorIds[3];
 //    std::string title;
+//};
+//
+//bool isEqual(const LibraryBook& rhs, unsigned int k) {
+//    for (int i = 0; i < 3; ++i) {
+//        if (rhs.AuthorIds[i] == k) {
+//            return true;
+//        }
+//    }
+//    return false;
+//}
+//
+//class Comparator {
+//public:
+//    int operator()(const LibraryBook& lhs, const LibraryBook& rhs) {
+//        if (lhs.AuthorIds[0] < rhs.AuthorIds[0]) {
+//            return true;
+//        }
+//
+//    }
 //};
 //
 //class Comparator {
@@ -171,6 +177,46 @@ public:
             }
         }
     }
+
+    int minimumDepth() {
+        if (root_ == nullptr) {
+            return 0;
+        }
+
+        int layerNumber = 1;
+        int viewedInLayer = 0;
+        int quantityInNextLayer = 0;
+        int quantityInCurrentLayer = 1;
+
+        queue<Node*> row;
+        row.push(root_);
+        while (!row.empty()) {
+            Node* current = row.front();
+            row.pop();
+            viewedInLayer++;
+
+            if (current->left == nullptr && current->right == nullptr) {
+                return layerNumber;
+            }
+
+            if (current->left != nullptr) {
+                row.push(current->left);
+                quantityInNextLayer++;
+            }
+            if (current->right != nullptr) {
+                row.push(current->right);
+                quantityInNextLayer++;
+            }
+
+            if (viewedInLayer == quantityInCurrentLayer) {
+                quantityInCurrentLayer = quantityInNextLayer;
+                quantityInNextLayer = 0;
+                viewedInLayer = 0;
+                layerNumber++;
+            }
+        }
+    }
+
     void inOrder(void (*visit)(T&)) {
         if (root_ == nullptr) {
             return;
@@ -191,7 +237,7 @@ public:
         } while (!buf.empty() || current);
     }
 
-    bool isSames() {
+    bool isEqual() {
         if (root_ == nullptr) {
             return true;
         }
@@ -269,7 +315,7 @@ void test1() {
 
     tree.inOrder(print);
     cout << endl;
-    cout << tree.isSames() << endl;
+    cout << tree.isEqual() << endl;
 //    tree.TraverseBFS(pow);
 //    tree.TraverseBFS(print);
 //    cout << endl;
@@ -286,18 +332,14 @@ void test2() {
     tree.insert(3);
     tree.insert(7);
     tree.insert(1);
-    tree.insert(4);
-    tree.insert(20);
-    tree.insert(21);
-    tree.insert(25);
-    tree.insert(14);
+    tree.insert(8);
+//    tree.insert(20);
+//    tree.insert(21);
+//    tree.insert(25);
+//    tree.insert(14);
+//    tree.insert(-1);
 
-    tree.inOrder(print);
-    cout << endl;
-
-    tree.del(20);
-    tree.inOrder(print);
-    cout << endl;
+    cout << tree.minimumDepth() << endl;
 }
 void test3() {
     Comparator<int> comp;
@@ -346,11 +388,37 @@ void test6() {
     tree.inOrder(print);
     cout << endl;
 }
+void test7() {
+    Comparator<int> comp;
+    Tree<int, Comparator<int>> tree(comp);
+
+    tree.insert(1);
+    tree.insert(1);
+    tree.insert(1);
+    tree.insert(1);
+    tree.insert(1);
+
+    cout << (tree.isEqual() ? " true " : " false ") << endl;
+    cout << endl;
+}
+void test8() {
+    Comparator<int> comp;
+    Tree<int, Comparator<int>> tree(comp);
+
+    tree.insert(1);
+    tree.insert(1);
+    tree.insert(11);
+    tree.insert(1);
+    tree.insert(1);
+
+    cout << (tree.isEqual() ? " true " : " false ") << endl;
+    cout << endl;
+}
 
 int main() {
-    Tests tests[] = {test1, test2, test3, test4, test5, test6};
+    vector<Tests> tests = {test1, test2, test3, test4, test5, test6, test7, test8};
 
-    for (int i = 0; i < 6; ++i) {
+    for (int i = 0; i < tests.size(); ++i) {
         tests[i]();
         cout << "test" << i + 1 << " - OK" << endl;
     }
